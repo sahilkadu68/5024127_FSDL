@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="studentApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Record - AngularJS</title>
+    <!-- AngularJS CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    form {
+        background: white;
+        padding: 25px;
+        margin: 20px auto;
+        width: 350px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    input {
+        width: 95%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #4facfe;
+    }
+
+    input.ng-invalid.ng-touched {
+        border: 1px solid red;
+    }
+
+    input.ng-valid.ng-touched {
+        border: 1px solid green;
+    }
+
+    button {
+        padding: 10px;
+        background: #4facfe;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background: #3a8ee6;
+    }
+
+    button:disabled {
+        background: gray;
+    }
+
+    .error {
+        color: red;
+        font-size: 12px;
+        text-align: left;
+    }
+
+    table {
+        margin: 30px auto;
+        border-collapse: collapse;
+        width: 70%;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    th {
+        background: #4facfe;
+        color: white;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background: #f2f2f2;
+    }
+
+    tr:hover {
+        background: #e6f0ff;
+    }
+
+    td button {
+        background: crimson;
+        padding: 5px 10px;
+        width: auto;
+    }
+
+    td button:hover {
+        background: darkred;
+    }
+</style>
+</head>
+<body ng-controller="studentController">
+    <h1>Student Record System 🎓</h1>
+    <!-- FORM -->
+    <form name="studentForm" novalidate ng-submit="addStudent()">
+        <!-- Name -->
+        <input type="text" name="name" ng-model="student.name" placeholder="Enter Name" required>
+        <div class="error" ng-show="studentForm.name.$touched && studentForm.name.$invalid">
+            Name is required
+        </div>
+        <!-- Age -->
+        <input type="number" name="age" ng-model="student.age" placeholder="Enter Age" required min="1">
+        <div class="error" ng-show="studentForm.age.$touched && studentForm.age.$invalid">
+            Valid age required
+        </div>
+        <!-- Email -->
+        <input type="email" name="email" ng-model="student.email" placeholder="Enter Email" required>
+        <div class="error" ng-show="studentForm.email.$touched && studentForm.email.$invalid">
+            Valid email required
+        </div>
+        <!-- Submit -->
+        <button type="submit" ng-disabled="studentForm.$invalid">
+            Add Student
+        </button>
+    </form>
+    <!-- TABLE -->
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        <tr ng-repeat="s in students">
+            <td>{{s.name}}</td>
+            <td>{{s.age}}</td>
+            <td>{{s.email}}</td>
+            <td>
+                <button ng-click="deleteStudent($index)">Delete</button>
+            </td>
+        </tr>
+    </table>
+    <script>
+        var app = angular.module("studentApp", []);
+        app.controller("studentController", function($scope) {
+            $scope.students = [];
+            // Add student (Event)
+            $scope.addStudent = function() {
+                if ($scope.studentForm.$valid) {
+                    $scope.students.push({
+                        name: $scope.student.name,
+                        age: $scope.student.age,
+                        email: $scope.student.email
+                    });
+                    // Clear form
+                    $scope.student = {};
+                    $scope.studentForm.$setPristine();
+                    $scope.studentForm.$setUntouched();
+                }
+            };
+            // Delete student (Event)
+            $scope.deleteStudent = function(index) {
+                $scope.students.splice(index, 1);
+            };
+        });
+    </script>
+</body>
+</html>
+
+
