@@ -1,0 +1,28 @@
+body {
+    font-family: Arial;
+    background: #f4f4f4;
+    text-align: center;
+}
+
+.box {
+    width: 320px;
+    margin: 80px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px #aaa;
+}
+
+input, button {
+    padding: 8px;
+    margin: 8px;
+}
+
+button {
+    background: #4a67d6;
+    color: #fff;
+    border: none;
+}
+
+#msg {
+    color: red;
+}
